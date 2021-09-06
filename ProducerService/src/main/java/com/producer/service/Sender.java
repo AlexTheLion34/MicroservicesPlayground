@@ -1,7 +1,7 @@
 package com.producer.service;
 
-import com.producer.model.Message;
+import com.producer.model.Car;
 
 public interface Sender {
-    void send(Message message);
+    void send(Car car);
 }

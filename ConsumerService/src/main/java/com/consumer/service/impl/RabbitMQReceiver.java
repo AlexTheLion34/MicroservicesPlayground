@@ -1,6 +1,6 @@
 package com.consumer.service.impl;
 
-import com.consumer.model.Message;
+import com.consumer.model.Car;
 import com.consumer.service.MessageReceiver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,13 +16,13 @@ public class RabbitMQReceiver implements MessageReceiver, RabbitListenerConfigur
 
 
     @RabbitListener(queues = "${spring.rabbitmq.queue1}")
-    public void receiveMessageFromFirstQueue(Message message) {
-        logger.info("Received message from queue 1: " + message);
+    public void receiveMessageFromFirstQueue(Car car) {
+        logger.info("Received message from queue 1: " + car);
     }
 
     @RabbitListener(queues = "${spring.rabbitmq.queue2}")
-    public void receiveMessageFromSecondQueue(Message message) {
-        logger.info("Received message from queue 2: " + message);
+    public void receiveMessageFromSecondQueue(Car car) {
+        logger.info("Received message from queue 2: " + car);
     }
 
     @Override

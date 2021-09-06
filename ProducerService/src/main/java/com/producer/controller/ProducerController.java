@@ -1,6 +1,6 @@
 package com.producer.controller;
 
-import com.producer.model.Message;
+import com.producer.model.Car;
 import com.producer.service.Sender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,8 +24,8 @@ public class ProducerController {
     private String message;
 
     @PostMapping(value = "message")
-    public String publishMessage(@RequestBody Message message) {
-        rabbitMQSender.send(message);
+    public String publishMessage(@RequestBody Car car) {
+        rabbitMQSender.send(car);
         return this.message;
     }
 }

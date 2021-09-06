@@ -1,0 +1,22 @@
+package com.producer.model;
+
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import lombok.*;
+
+import java.io.Serializable;
+
+@Data
+@NoArgsConstructor(force = true)
+@AllArgsConstructor
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "@messageId", scope = Car.class)
+public class Car implements Serializable {
+
+    private String carId;
+
+    private int speed;
+
+    private String gear;
+
+    private String brand;
+}

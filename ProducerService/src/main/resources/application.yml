@@ -6,6 +6,6 @@ spring:
     password: guest
     port: 15672
     username: guest
-    exchange: user.exchange-1
+    exchange: user.exchange-3
 server:
   port: 9091
