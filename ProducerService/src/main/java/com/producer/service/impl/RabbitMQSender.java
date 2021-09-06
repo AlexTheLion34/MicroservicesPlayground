@@ -7,8 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 @Service
 public class RabbitMQSender implements Sender {
+
+    private final AtomicInteger counter = new AtomicInteger(0);
 
     @Autowired
     public RabbitMQSender(RabbitTemplate rabbitTemplate) {
@@ -22,6 +26,13 @@ public class RabbitMQSender implements Sender {
 
     @Override
     public void send(Message message) {
-       rabbitTemplate.convertAndSend(exchange, "", message);
+        if (counter.get() == 0) {
+            rabbitTemplate.convertAndSend(exchange, "zero", message);
+        } else if (counter.get() % 2 != 0) {
+            rabbitTemplate.convertAndSend(exchange, "not-even", message);
+        } else {
+            rabbitTemplate.convertAndSend(exchange, "even", message);
+        }
+        counter.incrementAndGet();
     }
 }

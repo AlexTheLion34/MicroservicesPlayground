@@ -33,9 +33,9 @@ public class RabbitMQConfig {
     private String secondQueue;
 
     @Bean
-    public FanoutExchange fanoutExchange() {
+    public DirectExchange fanoutExchange() {
         return ExchangeBuilder
-                .fanoutExchange(exchange)
+                .directExchange(exchange)
                 .build();
     }
 
@@ -50,17 +50,27 @@ public class RabbitMQConfig {
     }
 
     @Bean
-    public Binding firstBinding(@Qualifier("firstQueue") Queue queue, FanoutExchange exchange) {
+    public Binding firstBinding(@Qualifier("firstQueue") Queue queue, DirectExchange exchange) {
         return BindingBuilder
                 .bind(queue)
-                .to(exchange);
+                .to(exchange)
+                .with("zero");
     }
 
     @Bean
-    public Binding secondBinding(@Qualifier("secondQueue") Queue queue, FanoutExchange exchange) {
+    public Binding secondBinding(@Qualifier("firstQueue") Queue queue, DirectExchange exchange) {
         return BindingBuilder
                 .bind(queue)
-                .to(exchange);
+                .to(exchange)
+                .with("not-even");
+    }
+
+    @Bean
+    public Binding thirdBinding(@Qualifier("secondQueue") Queue queue, DirectExchange exchange) {
+        return BindingBuilder
+                .bind(queue)
+                .to(exchange)
+                .with("even");
     }
 
     @Bean
