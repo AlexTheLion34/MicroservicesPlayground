@@ -15,8 +15,9 @@ public class RabbitMQReceiver implements MessageReceiver, RabbitListenerConfigur
     private static final Logger logger = LoggerFactory.getLogger(RabbitMQReceiver.class);
 
     @RabbitListener(queues = "${spring.rabbitmq.queue}")
-    public void receiveMessage(Message message) {
+    public String receiveMessage(Message message) {
         logger.info("Received message from queue: " + message);
+        return "Received following message - " + message;
     }
 
     @Override
