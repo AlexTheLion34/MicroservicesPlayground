@@ -14,9 +14,15 @@ public class RabbitMQReceiver implements MessageReceiver, RabbitListenerConfigur
 
     private static final Logger logger = LoggerFactory.getLogger(RabbitMQReceiver.class);
 
-    @RabbitListener(queues = "${spring.rabbitmq.queue}")
-    public void receiveMessage(Message message) {
-        logger.info("Received message from queue: " + message);
+
+    @RabbitListener(queues = "${spring.rabbitmq.queue1}")
+    public void receiveMessageFromFirstQueue(Message message) {
+        logger.info("Received message from queue 1: " + message);
+    }
+
+    @RabbitListener(queues = "${spring.rabbitmq.queue2}")
+    public void receiveMessageFromSecondQueue(Message message) {
+        logger.info("Received message from queue 2: " + message);
     }
 
     @Override

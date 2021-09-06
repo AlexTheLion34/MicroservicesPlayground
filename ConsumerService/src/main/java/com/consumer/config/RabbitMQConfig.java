@@ -1,10 +1,12 @@
 package com.consumer.config;
 
+import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.amqp.support.converter.MessageConverter;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,6 +22,46 @@ public class RabbitMQConfig {
 
     @Value("${spring.rabbitmq.host}")
     private String host;
+
+    @Value("${spring.rabbitmq.exchange}")
+    private String exchange;
+
+    @Value("${spring.rabbitmq.queue1}")
+    private String firstQueue;
+
+    @Value("${spring.rabbitmq.queue2}")
+    private String secondQueue;
+
+    @Bean
+    public FanoutExchange fanoutExchange() {
+        return ExchangeBuilder
+                .fanoutExchange(exchange)
+                .build();
+    }
+
+    @Bean
+    public Queue firstQueue() {
+        return new Queue(firstQueue);
+    }
+
+    @Bean
+    public Queue secondQueue() {
+        return new Queue(secondQueue);
+    }
+
+    @Bean
+    public Binding firstBinding(@Qualifier("firstQueue") Queue queue, FanoutExchange exchange) {
+        return BindingBuilder
+                .bind(queue)
+                .to(exchange);
+    }
+
+    @Bean
+    public Binding secondBinding(@Qualifier("secondQueue") Queue queue, FanoutExchange exchange) {
+        return BindingBuilder
+                .bind(queue)
+                .to(exchange);
+    }
 
     @Bean
     public ConnectionFactory connectionFactory() {

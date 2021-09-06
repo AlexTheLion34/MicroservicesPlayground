@@ -17,11 +17,11 @@ public class RabbitMQSender implements Sender {
 
     private final RabbitTemplate rabbitTemplate;
 
-    @Value(value = "${spring.rabbitmq.queue}")
-    private String queue;
+    @Value(value = "${spring.rabbitmq.exchange}")
+    private String exchange;
 
     @Override
     public void send(Message message) {
-       rabbitTemplate.convertAndSend(queue, message);
+       rabbitTemplate.convertAndSend(exchange, "", message);
     }
 }
